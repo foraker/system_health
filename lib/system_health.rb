@@ -1,5 +1,3 @@
-require "system_health/version"
-
-module SystemHealth
-  # Your code goes here...
-end
+require 'system_health/version'
+require 'system_health/monitor'
+require 'system_health/engine'
