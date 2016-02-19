@@ -27,11 +27,7 @@ module SystemHealth
     end
 
     def monitors
-      [].tap do |array|
-        monitor_classes.each do |monitor_class|
-          array << monitor_class.new
-        end
-      end
+      @monitors ||= monitor_classes.map(&:new)
     end
   end
 end
