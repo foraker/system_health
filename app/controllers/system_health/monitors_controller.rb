@@ -11,7 +11,11 @@ module SystemHealth
     private
 
     def monitor
-      @monitor ||= SystemHealth::Monitor.new(SYSTEM_HEALTH_MONITOR_CLASSES)
+      @monitor ||= SystemHealth::Monitor.new(monitor_classes)
+    end
+
+    def monitor_classes
+      SystemHealth.configuration.monitor_classes
     end
   end
 end

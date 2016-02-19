@@ -27,9 +27,11 @@ and then...
 1. create an initializer in config/initializers/system_health.rb
 
   ```ruby
-  SYSTEM_HEALTH_MONITOR_CLASSES = [
-    SystemHealth::Monitors::BadData
-  ]
+  SystemHealth.configure do |config|
+    config.monitor_classes = [
+      SystemHealth::Monitors::BadData
+    ]
+  end
   ```
 
   This should define the SYSTEM_HEALTH_MONITOR_CLASSES array with all
