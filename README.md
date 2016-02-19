@@ -78,7 +78,7 @@ and then...
 ## Usage
 
 The System Health gem exposes a single controller endpoint at:
-yourapp://system_health/monitor
+/system_health/monitor
 
 It will return a 200 HTTP status code if there are no errors and a 500
 HTTP status code if there are any errors.  It also returns a JSON
