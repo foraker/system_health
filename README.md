@@ -84,8 +84,8 @@ payload with data like this:
 
 ```json
 {
-error_count: 0,
-messages: [ ]
+  error_count: 0,
+  messages: [ ]
 }
 ```
 
