@@ -105,3 +105,11 @@ payload with data like this:
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## About Foraker Labs
+
+[![Foraker Logo](http://assets.foraker.com/attribution_logo.png)](https://www.foraker.com/)
+
+[Foraker Labs](https://www.foraker.com/) builds exciting web and mobile apps in Boulder, CO. Our work powers a wide variety of businesses with many different needs. We love open source software, and we're proud to contribute where we can. Interested to learn more? [Contact us today](https://www.foraker.com/contact-us).
+
+This project is maintained by Foraker Labs. The names and logos of Foraker Labs are fully owned and copyright Foraker Design, LLC.
