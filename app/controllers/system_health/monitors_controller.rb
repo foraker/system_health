@@ -5,7 +5,7 @@ module SystemHealth
       password: ENV['SYSTEM_HEALTH_PASSWORD']
 
     def show
-      render :json => monitor.as_json, :status => monitor.http_status
+      render json: monitor.as_json, status: monitor.http_status
     end
 
     private

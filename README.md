@@ -59,7 +59,7 @@ and then...
   end
   ```
 
-  each monitor should define a public instance method for `error_messages`
+  Each monitor should define a public instance method for `error_messages`
   as an array.  If that array is empty then the data is good.  When the
   data is bad, one or more error messages can be placed in that array.
   That is it!
@@ -86,8 +86,8 @@ payload with data like this:
 
 ```json
 {
-  error_count: 0,
-  messages: [ ]
+  "error_count": 2,
+  "messages": ["some error message here", "another error message"]
 }
 ```
 
