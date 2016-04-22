@@ -2,9 +2,9 @@
 
 The System Health gem can be added to your Rails application to provide
 a convenient way to regularly look for bad data or other system health
-indicators.  It provides a single endpoint that will generate and error
+indicators.  It provides a single endpoint that will generate an error
 count and enumerate error messages.  This count and the messages can be
-collected by external monitoring tools the look for the HTTP status code
+collected by external monitoring tools that look for the HTTP status code
 (200 when there are no errors or 500 when there is at least one error)
 and/or inspect the JSON payload that is returned.
 
