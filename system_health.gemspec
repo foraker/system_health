@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Stirling Olson"]
   spec.email         = ["seo@foraker.com"]
   spec.summary       = %q{System health monitor for Rails apps}
-  spec.description   = %q{}
-  spec.homepage      = ""
+  spec.description   = %q{System health monitor for Rails applications}
+  spec.homepage      = "https://github.com/foraker/system_health"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "rails"
+  spec.add_dependency "rails", '>= 4.0.0'
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake"
