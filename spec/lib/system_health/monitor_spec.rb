@@ -21,35 +21,29 @@ module SystemHealth
           and_return(['something broke'])
       end
 
-      describe '#as_json' do
-        it 'returns error_count and messages' do
-          expect(monitor.as_json).to eq({
-            error_count: 1,
-            messages: ['something broke']
-          })
+      describe '#error_count' do
+        it 'returns error count' do
+          expect(monitor.error_count).to eq(1)
         end
       end
 
-      describe '#http_status' do
-        it 'returns 500' do
-          expect(monitor.http_status).to eq 500
+      describe '#messages' do
+        it 'returns error messages' do
+          expect(monitor.error_messages).to eq(['something broke'])
         end
       end
     end
 
     context 'when no errors' do
-      describe '#as_json' do
-        it 'returns error_count and messages' do
-          expect(monitor.as_json).to eq({
-            error_count: 0,
-            messages: []
-          })
+      describe '#error_count' do
+        it 'returns error count' do
+          expect(monitor.error_count).to eq(0)
         end
       end
 
-      describe '#http_status' do
-        it 'returns 200 when no errors' do
-          expect(monitor.http_status).to eq 200
+      describe '#messages' do
+        it 'returns error messages' do
+          expect(monitor.error_messages).to eq([])
         end
       end
     end
