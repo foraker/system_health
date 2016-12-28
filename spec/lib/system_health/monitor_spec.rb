@@ -5,16 +5,16 @@ require_relative '../../../lib/system_health/monitors/base'
 module SystemHealth
   describe Monitor do
 
-    class MonitorDouble < Monitors::Base
-      def error_messages
-        []
-      end
-    end
-
-    let(:monitor_classes) { [MonitorDouble] }
-    let(:monitor) { described_class.new(monitor_classes) }
-
     context 'when errors' do
+      class MonitorDouble < Monitors::Base
+        def add_error_messages
+          add_error_message('hello')
+        end
+      end
+
+      let(:monitor_classes) { [MonitorDouble] }
+      let(:monitor) { described_class.new(monitor_classes) }
+
       before do
         allow_any_instance_of(MonitorDouble).
           to receive(:error_messages).
@@ -35,6 +35,14 @@ module SystemHealth
     end
 
     context 'when no errors' do
+      class MonitorDouble < Monitors::Base
+        def add_error_messages
+        end
+      end
+
+      let(:monitor_classes) { [MonitorDouble] }
+      let(:monitor) { described_class.new(monitor_classes) }
+
       describe '#error_count' do
         it 'returns error count' do
           expect(monitor.error_count).to eq(0)
