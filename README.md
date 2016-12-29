@@ -117,6 +117,13 @@ mon.error_messages
 mon.error_count
 ```
 
+## Notifying
+
+You are free to do as you wish with the results from `error_messages`
+and `error_count`.  A common approach might be to create a simple
+controller that responds with any errors.  Or, you could create rake
+task that sends an email to some list when errors are discovered.
+ 
 ## To do?
 
 1. Add concept of notifiers to make it more seamless to email or report
