@@ -20,79 +20,79 @@ Or install it yourself as:
 
 and then...
 
-1. Create your monitor classes
+### Create your monitor classes
 
-  All monitoring classes require a public instance method named `description`.
-  This method should return a string describing the bad data condition that is
-  being tested.
+All monitoring classes require a public instance method named `description`.
+This method should return a string describing the bad data condition that is
+being tested.
 
-## Generic monitoring class
+#### Generic monitoring class
 
-  For example, in lib/system_health/monitors/bad_data.rb create:
+For example, in lib/system_health/monitors/bad_data.rb create:
 
-  ```ruby
-  module SystemHealth
-    module Monitors
-      class BadData < Base
-        def description
-          'Bad data was discovered'
-        end
+```ruby
+module SystemHealth
+  module Monitors
+    class BadData < Base
+      def description
+        'Bad data was discovered'
+      end
 
-        private
+      private
 
-        def bad_data?
-          # return true from this method if there is bad data
-        end
+      def bad_data?
+        # return true from this method if there is bad data
       end
     end
   end
-  ```
+end
+```
 
-  define a private instance method `bad_data?` that should return true
-  when bad data exists.
+and then define a private instance method `bad_data?` that should return true
+when bad data exists.
 
-## SQL monitoring class
+#### SQL monitoring class
 
-  For example, in lib/system_health/monitors/bad_sql_data.rb create:
+For example, in lib/system_health/monitors/bad_sql_data.rb create:
 
-  ```ruby
-  module SystemHealth
-    module Monitors
-      class BadSqlData < Sql
-        def description
-          'Bad data was discovered through a SQL query'
-        end
+```ruby
+module SystemHealth
+  module Monitors
+    class BadSqlData < Sql
+      def description
+        'Bad data was discovered through a SQL query'
+      end
 
-        private
+      private
 
-        def sql
-          <<-SQL
-            SELECT *
-            FROM some_table
-            WHERE bad_data is true
-          SQL
-        end
+      def sql
+        <<-SQL
+          SELECT *
+          FROM some_table
+          WHERE bad_data is true
+        SQL
       end
     end
   end
-  ```
+end
+```
 
-  this type of monitor requires an additional private instance method
-  named `sql`.  This SQL statement should return rows for any data
-  integrity problem.  I.e. no rows means no problem.  Rows returned means
-  there is a problem.
+and then define a private instance method
+named `sql`.  This SQL statement should return rows for any data
+integrity problem.  I.e. no rows means no problem.  Rows returned means
+there is a problem.
 
 
-2. create an initializer in config/initializers/system_health.rb
+### Create an initializer in config/initializers/system_health.rb
 
-  ```ruby
-  SystemHealth.configure do |config|
-    config.monitor_classes = [
-      SystemHealth::Monitors::BadData,
-      SystemHealth::Monitors::BadSqlData
-    ]
-  end
-  ```
+```ruby
+SystemHealth.configure do |config|
+  config.monitor_classes = [
+    SystemHealth::Monitors::BadData,
+    SystemHealth::Monitors::BadSqlData
+  ]
+end
+```
 
 ## Usage
 
