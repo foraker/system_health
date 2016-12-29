@@ -2,11 +2,7 @@
 
 The System Health gem can be added to your Rails application to provide
 a convenient way to regularly look for bad data or other system health
-indicators.  It provides a single endpoint that will generate an error
-count and enumerate error messages.  This count and the messages can be
-collected by external monitoring tools that look for the HTTP status code
-(200 when there are no errors or 500 when there is at least one error)
-and/or inspect the JSON payload that is returned.
+indicators.
 
 ## Installation
 
@@ -24,81 +20,98 @@ Or install it yourself as:
 
 and then...
 
-1. create an initializer in config/initializers/system_health.rb
+1. Create your monitor classes
 
-  ```ruby
-  SystemHealth.configure do |config|
-    config.monitor_classes = [
-      SystemHealth::Monitors::BadData
-    ]
-  end
-  ```
+  All monitoring classes require a public instance method named `description`.
+  This method should return a string describing the bad data condition that is
+  being tested.
 
-  This should define the SYSTEM_HEALTH_MONITOR_CLASSES array with all
-  your monitor classes.  There can be as many monitor classes as you wish.
+## Generic monitoring class
 
-2. Create your monitor classes
-
-  In lib/system_health/monitors/bad_data.rb create:
+  For example, in lib/system_health/monitors/bad_data.rb create:
 
   ```ruby
   module SystemHealth
     module Monitors
       class BadData < Base
-        def error_messages
-          ['some error message here'] if bad_data?
+        def description
+          'Bad data was discovered'
         end
 
         private
 
         def bad_data?
-          # logic here
+          # return true from this method if there is bad data
         end
       end
     end
   end
   ```
 
-  Each monitor should define a public instance method for `error_messages`
-  as an array.  If that array is empty then the data is good.  When the
-  data is bad, one or more error messages can be placed in that array.
-  That is it!
+  define a private instance method `bad_data?` that should return true
+  when bad data exists.
 
-3. Define the environment variables
+## SQL monitoring class
 
-  For applications hosted on Heroku, this might be something like:
+  For example, in lib/system_health/monitors/bad_sql_data.rb create:
 
-  ```bash
-  heroku config:add SYSTEM_HEALTH_MONITOR_USERNAME=somenamehere
-  heroku config:add SYSTEM_HEALTH_MONITOR_PASSWORD=somesecrethere
+  ```ruby
+  module SystemHealth
+    module Monitors
+      class BadSqlData < Sql
+        def description
+          'Bad data was discovered through a SQL query'
+        end
+
+        private
+
+        def sql
+          <<-SQL
+            SELECT *
+            FROM some_table
+            WHERE bad_data is true
+          SQL
+        end
+      end
+    end
+  end
   ```
 
-  on other environments, you'll need to define these elsewhere.
+  this type of monitor requires an additional private instance method
+  named `sql`.  This SQL statement should return rows for any data
+  integrity problem.  I.e. no rows means no problem.  Rows returned means
+  there is a problem.
+
+
+2. create an initializer in config/initializers/system_health.rb
+
+  ```ruby
+  SystemHealth.configure do |config|
+    config.monitor_classes = [
+      SystemHealth::Monitors::BadData,
+      SystemHealth::Monitors::BadSqlData
+    ]
+  end
+  ```
 
 ## Usage
 
-The System Health gem exposes a single controller endpoint at:
-/system_health/monitor
+The System Health gem exposes a monitoring class `SystemHealth::Monitor` that
+can be used to test for all system health issues with the following
+methods:
 
-It will return a 200 HTTP status code if there are no errors and a 500
-HTTP status code if there are any errors.  It also returns a JSON
-payload with data like this:
-
-```json
-{
-  "error_count": 2,
-  "messages": ["some error message here", "another error message"]
-}
+```ruby
+mon = SystemHealth::Monitor.new
+mon.error_messages
+mon.error_count
 ```
 
 ## To do?
 
-1. Consider how to deal with long running monitors that may fail with
-   page load limits (e.g. Heroku's 30 second timeout)
-2. Add ability to run different health monitors at different times or
-   possibly call monitors individually
-3. Add the ability to generate error notifications directly from System
-   Health instead of relying on external monitoring tools to send these
+1. Add concept of notifiers to make it more seamless to email or report
+   on system health issues.
+2. Add monitor classes so different classes can be run at different
+   times and with different frequency.
 
 ## Contributing
 

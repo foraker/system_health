@@ -1,6 +1,6 @@
 module SystemHealth
   class Monitor
-    def initialize(monitor_classes)
+    def initialize(monitor_classes = SystemHealth.configuration.monitor_classes)
       @monitor_classes = monitor_classes
     end
 
