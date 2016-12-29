@@ -7,8 +7,14 @@ module SystemHealth
 
     context 'when errors' do
       class MonitorDouble < Monitors::Base
-        def add_error_messages
-          add_error_message('hello')
+        def description
+          'hello'
+        end
+
+        private
+
+        def bad_data?
+          true
         end
       end
 
@@ -36,7 +42,14 @@ module SystemHealth
 
     context 'when no errors' do
       class MonitorDouble < Monitors::Base
-        def add_error_messages
+        def description
+          'hello'
+        end
+
+        private
+
+        def bad_data?
+          false
         end
       end
 
