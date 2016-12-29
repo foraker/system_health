@@ -48,8 +48,8 @@ module SystemHealth
 end
 ```
 
-and then define a private instance method `bad_data?` that should return true
-when bad data exists.
+the private instance method `bad_data?` should return true
+when bad data exists.  Note: this class inherits from `Base`.
 
 #### SQL monitoring class
 
@@ -77,10 +77,11 @@ module SystemHealth
 end
 ```
 
-and then define a private instance method
-named `sql`.  This SQL statement should return rows for any data
-integrity problem.  I.e. no rows means no problem.  Rows returned means
-there is a problem.
+the private instance method `sql` should include the string version of
+the SQL to use in the system health check.  This SQL should return rows
+when there is bad data.  I.e. no rows returned means no system health problem.
+Rows returned means there is a problem.  Note: this class inherits from
+`Sql`.
 
 
 ### Create an initializer in config/initializers/system_health.rb
@@ -102,6 +103,16 @@ methods:
 
 ```ruby
 mon = SystemHealth::Monitor.new
+mon.error_messages
+mon.error_count
+```
+
+by default SystemHealth::Monitor.new uses those classes defined in your
+initializer but you can initialize with your own classes, if you wish:
+
+```ruby
+mon =
+SystemHealth::Monitor.new([SystemMonitor::Monitors::SomeSpecialClass])
 mon.error_messages
 mon.error_count
 ```
